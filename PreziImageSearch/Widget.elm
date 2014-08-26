@@ -13,6 +13,20 @@ import PreziImageSearch.Css as Css
 import PreziImageSearch.Labels as Labels
 import PreziImageSearch.SearchEngine (..)
 import PreziImageSearch.TestSearchEngine as TestSearchEnigne
+import PreziImageSearch.GoogleSearchEngine as GoogleSearchEnigne
+
+{- API -}
+
+type Config = 
+    { width : Int
+    , googleCustomSearchId : String
+    , googleApiKey : String
+    }
+
+widget : Config -> Signal Element
+widget config = scene config <~ state ~ searchResults config ~ Window.dimensions
+
+{- "Const" -}
 
 enterKeyCode = 13
 
@@ -48,8 +62,8 @@ step action state =
 
 {- To be lifted -}
 
-scene : State -> SearchResult -> (Int, Int) -> Element
-scene state searchResult (w, h) = toElement 300 h (searchWidgetElement state searchResult)
+scene : Config -> State -> SearchResult -> (Int, Int) -> Element
+scene config state searchResult (w, h) = toElement config.width h (searchWidgetElement state searchResult)
 
 searchQuery : State -> String
 searchQuery state =  state.searchText
@@ -79,11 +93,11 @@ searchSubmits = sampleOn
 searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
 
-searchResults : Signal SearchResult
-searchResults = TestSearchEnigne.results searchQueries
-
-widget : Signal Element
-widget = scene <~ state ~ searchResults ~ Window.dimensions
+searchResults : Config -> Signal SearchResult
+searchResults config = GoogleSearchEnigne.results
+                    config.googleCustomSearchId
+                    config.googleApiKey
+                    searchQueries
 
 {- UI -}
 

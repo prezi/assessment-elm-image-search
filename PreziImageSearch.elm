@@ -2,5 +2,7 @@ module PreziImageSearch where
 
 import PreziImageSearch.Widget
 
-widget : Signal Element
-widget = PreziImageSearch.Widget.widget
+type Config = PreziImageSearch.Widget.Config
+
+widget : Config -> Signal Element
+widget config = PreziImageSearch.Widget.widget config
