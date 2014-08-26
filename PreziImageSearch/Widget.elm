@@ -11,6 +11,8 @@ import Window
 
 import PreziImageSearch.Css as Css
 import PreziImageSearch.Labels as Labels
+import PreziImageSearch.SearchEngine (..)
+import PreziImageSearch.TestSearchEngine as TestSearchEnigne
 
 {- Model -}
 
@@ -44,11 +46,11 @@ step action state =
 
 {- To be lifted -}
 
-scene : State -> (Http.Response String) -> (Int, Int) -> Element
-scene state httpResponse (w, h) = toElement 300 h (searchWidgetElement state httpResponse)
+scene : State -> SearchResult -> (Int, Int) -> Element
+scene state searchResult (w, h) = toElement 300 h (searchWidgetElement state searchResult)
 
 searchQuery : State -> String
-searchQuery state =  if String.isEmpty state.searchText then "" else  "test_data/" ++ state.searchText
+searchQuery state =  state.searchText
 
 {- Signals and inputs -}
 
@@ -64,11 +66,14 @@ state = foldp step emptyState actions.signal
 searchSubmits : Signal State 
 searchSubmits = sampleOn submitButtonClicks.signal state
 
-searchResponses : Signal (Http.Response String)
-searchResponses = Http.sendGet (searchQuery <~ searchSubmits)
+searchQueries : Signal SearchQuery
+searchQueries = searchQuery <~ searchSubmits
+
+searchResults : Signal SearchResult
+searchResults = TestSearchEnigne.results searchQueries
 
 widget : Signal Element
-widget = scene <~ state ~ searchResponses ~ Window.dimensions
+widget = scene <~ state ~ searchResults ~ Window.dimensions
 
 {- UI -}
 
@@ -98,25 +103,25 @@ searchInputElement = eventNode "input"
                         [ on "keyup" (getValue) actions.handle UpdateSearchText ]
                         []
 
-searchWidgetElement : State -> Http.Response String -> Html
-searchWidgetElement state httpResponse = node "div"
+searchWidgetElement : State -> SearchResult -> Html
+searchWidgetElement state searchResult = node "div"
                         [ Css.widget ]
                         [ "border" := "1px solid #FF00FF" ]
                         [ headerElement
                         , searchInputElement
                         , charCountElement state.charCount
                         , submitButtonElement
-                        , searchResultElement httpResponse
+                        , searchResultElement searchResult
                         ]
 
-searchResultElement : Http.Response String -> Html
-searchResultElement httpResponse = node "div"
+searchResultElement : SearchResult -> Html
+searchResultElement searchResult = node "div"
                                     []
                                     []
                                     [ node "textarea"
                                         []
                                         []
-                                        [ text (show httpResponse) ]
+                                        [ text (show searchResult) ]
                                     ]
 
 
