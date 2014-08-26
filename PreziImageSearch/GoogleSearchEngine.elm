@@ -29,6 +29,7 @@ queryToGet config query = if String.isEmpty query
                                     ( addGetParamters baseUrl 
                                       [ ("cx", config.googleCustomSearchId)
                                       , ("key", config.googleApiKey)
+                                      , ("searchType", "image")
                                       , ("q", query)
                                       ]
                                     )
