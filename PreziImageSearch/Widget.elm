@@ -48,7 +48,7 @@ scene : State -> (Http.Response String) -> (Int, Int) -> Element
 scene state httpResponse (w, h) = toElement 300 h (searchWidgetElement state httpResponse)
 
 searchQuery : State -> String
-searchQuery state =  ""  ++ state.searchText
+searchQuery state =  if String.isEmpty state.searchText then "" else  "test_data/" ++ state.searchText
 
 {- Signals and inputs -}
 
@@ -74,10 +74,10 @@ widget = scene <~ state ~ searchResponses ~ Window.dimensions
 
 submitButtonElement : Html
 submitButtonElement = eventNode "button"
-                        []
+                        [ Css.submit ]
                         []
                         [ onclick submitButtonClicks.handle (always ())]
-                        [ text "Test" ]
+                        [ text Labels.submit ]
 
 charCountElement : Int -> Html
 charCountElement cnt = node "div"
