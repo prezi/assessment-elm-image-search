@@ -4,7 +4,7 @@ import Graphics.Input (Input)
 import Graphics.Input as Input
 import Html
 import Html (eventNode, node, text, toElement, (:=), Attribute, Html)
-import Html.Events (getValue, on, onclick)
+import Html.Events (getValue, getKeyboardEvent, on, onclick, onkeydown, onkeyup, when)
 import Http
 import Maybe
 import Window
@@ -13,6 +13,8 @@ import PreziImageSearch.Css as Css
 import PreziImageSearch.Labels as Labels
 import PreziImageSearch.SearchEngine (..)
 import PreziImageSearch.TestSearchEngine as TestSearchEnigne
+
+enterKeyCode = 13
 
 {- Model -}
 
@@ -60,11 +62,19 @@ actions = Input.input NoOp
 submitButtonClicks : Input ()
 submitButtonClicks = Input.input ()
 
+inputEnterKeyDowns : Input ()
+inputEnterKeyDowns = Input.input ()
+
+
 state : Signal State
 state = foldp step emptyState actions.signal
 
 searchSubmits : Signal State 
-searchSubmits = sampleOn submitButtonClicks.signal state
+searchSubmits = sampleOn
+                    (merge
+                        submitButtonClicks.signal
+                        inputEnterKeyDowns.signal)
+                    state
 
 searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
@@ -78,11 +88,14 @@ widget = scene <~ state ~ searchResults ~ Window.dimensions
 {- UI -}
 
 submitButtonElement : Html
-submitButtonElement = eventNode "button"
-                        [ Css.submit ]
+submitButtonElement = eventNode "input"
+                        [ Css.submit
+                        , "type" := "button"
+                        , "value" := Labels.submit
+                        ]
                         []
-                        [ onclick submitButtonClicks.handle (always ())]
-                        [ text Labels.submit ]
+                        [ onclick submitButtonClicks.handle (always ()) ]
+                        []
 
 charCountElement : Int -> Html
 charCountElement cnt = node "div"
@@ -100,7 +113,9 @@ searchInputElement : Html
 searchInputElement = eventNode "input"
                         [ Css.input ]
                         []
-                        [ on "keyup" (getValue) actions.handle UpdateSearchText ]
+                        [ on "keydown" (when (\e -> e.keyCode == 13) getKeyboardEvent) inputEnterKeyDowns.handle (always ())
+                        , on "keyup" (getValue) actions.handle UpdateSearchText
+                        ]
                         []
 
 searchWidgetElement : State -> SearchResult -> Html
