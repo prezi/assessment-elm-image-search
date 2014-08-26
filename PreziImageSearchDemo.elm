@@ -1,3 +1,4 @@
 import PreziImageSearch
 
-main = PreziImageSearch.searchWidget
+main : Signal Element
+main = PreziImageSearch.widget

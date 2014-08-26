@@ -1,4 +1,4 @@
-module Css where
+module PreziImageSearch.Css where
 
 import Html ((:=), Attribute)
 

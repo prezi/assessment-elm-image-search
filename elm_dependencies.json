@@ -3,7 +3,7 @@
     "summary": "Prezi image search sidebar",
     "description": "assessment task for David Biro",
     "license": "",
-    "exposed-modules": [],
+    "exposed-modules": ["PreziImageSearch"],
     "elm-version": "0.12.3",
     "dependencies": {
         "evancz/elm-html": "0.1.2"
