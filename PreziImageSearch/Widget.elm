@@ -59,7 +59,13 @@ step action state =
 
 scene : Config -> State -> SearchResult -> (Int, Int) -> Element
 scene config state searchResult (w, h) = 
-    toElement config.width h (searchWidgetElement state searchResult)
+    toElement
+        config.width
+        h
+        (searchWidgetElement
+            (Labels.labels config.language)
+            state
+            searchResult)
 
 searchQuery : State -> String
 searchQuery state =  state.searchText
@@ -95,12 +101,12 @@ searchResults config = GoogleSearchEnigne.results config searchQueries
 
 {- UI -}
 
-submitButtonElement : Html
-submitButtonElement = 
+submitButtonElement : String -> Html
+submitButtonElement label = 
     eventNode "input"
         [ Css.submit
         , "type" := "button"
-        , "value" := Labels.submit
+        , "value" := label
         ]
         []
         [ onclick submitButtonClicks.handle (always ()) ]
@@ -113,12 +119,12 @@ charCountElement cnt =
         []
         [ text (show cnt) ]
 
-headerElement : Html
-headerElement = 
+headerElement : String -> Html
+headerElement label = 
     node "div"
         [ Css.header ]
         []
-        [ text Labels.searchTitle ]
+        [ text label ]
 
 searchInputElement : Html
 searchInputElement = 
@@ -130,17 +136,17 @@ searchInputElement =
         ]
         []
 
-searchWidgetElement : State -> SearchResult -> Html
-searchWidgetElement state searchResult =
-    node "div"
-        [ Css.widget ]
-        [ "border" := "1px solid #FF00FF" ]
-        [ headerElement
-        , searchInputElement
-        , charCountElement state.charCount
-        , submitButtonElement
-        , searchResultElement searchResult
-        ]
+searchWidgetElement : Labels.Labels -> State -> SearchResult -> Html
+searchWidgetElement labels state searchResult =
+        node "div"
+            [ Css.widget ]
+            [ "border" := "1px solid #FF00FF" ]
+            [ headerElement labels.searchTitle
+            , searchInputElement
+            , charCountElement state.charCount
+            , submitButtonElement labels.submit
+            , searchResultElement searchResult
+            ]
 
 searchResultElement : SearchResult -> Html
 searchResultElement searchResult = 
