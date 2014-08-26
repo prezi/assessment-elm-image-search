@@ -58,7 +58,8 @@ step action state =
 {- To be lifted -}
 
 scene : Config -> State -> SearchResult -> (Int, Int) -> Element
-scene config state searchResult (w, h) = toElement config.width h (searchWidgetElement state searchResult)
+scene config state searchResult (w, h) = 
+    toElement config.width h (searchWidgetElement state searchResult)
 
 searchQuery : State -> String
 searchQuery state =  state.searchText
@@ -79,11 +80,12 @@ state : Signal State
 state = foldp step emptyState actions.signal
 
 searchSubmits : Signal State 
-searchSubmits = sampleOn
-                    (merge
-                        submitButtonClicks.signal
-                        inputEnterKeyDowns.signal)
-                    state
+searchSubmits = 
+    sampleOn
+        (merge
+            submitButtonClicks.signal
+            inputEnterKeyDowns.signal)
+        state
 
 searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
@@ -94,56 +96,62 @@ searchResults config = GoogleSearchEnigne.results config searchQueries
 {- UI -}
 
 submitButtonElement : Html
-submitButtonElement = eventNode "input"
-                        [ Css.submit
-                        , "type" := "button"
-                        , "value" := Labels.submit
-                        ]
-                        []
-                        [ onclick submitButtonClicks.handle (always ()) ]
-                        []
+submitButtonElement = 
+    eventNode "input"
+        [ Css.submit
+        , "type" := "button"
+        , "value" := Labels.submit
+        ]
+        []
+        [ onclick submitButtonClicks.handle (always ()) ]
+        []
 
 charCountElement : Int -> Html
-charCountElement cnt = node "div"
-                    []
-                    []
-                    [ text (show cnt) ]
+charCountElement cnt =
+    node "div"
+        []
+        []
+        [ text (show cnt) ]
 
 headerElement : Html
-headerElement = node "div"
-                    [ Css.header ]
-                    []
-                    [ text Labels.searchTitle ]
+headerElement = 
+    node "div"
+        [ Css.header ]
+        []
+        [ text Labels.searchTitle ]
 
 searchInputElement : Html
-searchInputElement = eventNode "input"
-                        [ Css.input ]
-                        []
-                        [ on "keydown" (when (\e -> e.keyCode == 13) getKeyboardEvent) inputEnterKeyDowns.handle (always ())
-                        , on "keyup" (getValue) actions.handle UpdateSearchText
-                        ]
-                        []
+searchInputElement = 
+    eventNode "input"
+        [ Css.input ]
+        []
+        [ on "keydown" (when (\e -> e.keyCode == 13) getKeyboardEvent) inputEnterKeyDowns.handle (always ())
+        , on "keyup" (getValue) actions.handle UpdateSearchText
+        ]
+        []
 
 searchWidgetElement : State -> SearchResult -> Html
-searchWidgetElement state searchResult = node "div"
-                        [ Css.widget ]
-                        [ "border" := "1px solid #FF00FF" ]
-                        [ headerElement
-                        , searchInputElement
-                        , charCountElement state.charCount
-                        , submitButtonElement
-                        , searchResultElement searchResult
-                        ]
+searchWidgetElement state searchResult =
+    node "div"
+        [ Css.widget ]
+        [ "border" := "1px solid #FF00FF" ]
+        [ headerElement
+        , searchInputElement
+        , charCountElement state.charCount
+        , submitButtonElement
+        , searchResultElement searchResult
+        ]
 
 searchResultElement : SearchResult -> Html
-searchResultElement searchResult = node "div"
-                                    []
-                                    []
-                                    [ node "textarea"
-                                        []
-                                        []
-                                        [ text (show searchResult) ]
-                                    ]
+searchResultElement searchResult = 
+    node "div"
+        []
+        []
+        [ node "textarea"
+            []
+            []
+            [ text (show searchResult) ]
+        ]
 
 
 
