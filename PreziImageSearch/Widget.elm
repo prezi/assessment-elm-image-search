@@ -10,18 +10,13 @@ import Maybe
 import Window
 
 import PreziImageSearch.Css as Css
+import PreziImageSearch.Config (Config)
 import PreziImageSearch.Labels as Labels
 import PreziImageSearch.SearchEngine (..)
 import PreziImageSearch.TestSearchEngine as TestSearchEnigne
 import PreziImageSearch.GoogleSearchEngine as GoogleSearchEnigne
 
 {- API -}
-
-type Config = 
-    { width : Int
-    , googleCustomSearchId : String
-    , googleApiKey : String
-    }
 
 widget : Config -> Signal Element
 widget config = scene config <~ state ~ searchResults config ~ Window.dimensions
@@ -94,10 +89,7 @@ searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
 
 searchResults : Config -> Signal SearchResult
-searchResults config = GoogleSearchEnigne.results
-                    config.googleCustomSearchId
-                    config.googleApiKey
-                    searchQueries
+searchResults config = GoogleSearchEnigne.results config searchQueries
 
 {- UI -}
 
