@@ -15,13 +15,13 @@ import PreziImageSearch.Labels as Labels
 {- Model -}
 
 type State =
-    { charCount : Int
+    { charCount  : Int
     , searchText : String
     }
 
 emptyState : State
 emptyState = 
-    { charCount = 0
+    { charCount  = 0
     , searchText = ""
     }
 
