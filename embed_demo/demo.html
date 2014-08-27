@@ -41,6 +41,15 @@
                             <input id="config_google_custom_search_id"></input>
                         </td>
                     </tr>
+                    <tr>
+                        <td>Google Test Response</td>
+                        <td>
+                            <select id="config_google_test_response">
+                                <option value="1" selected="selected">On</option>
+                                <option value="0">Off</option>
+                            </select>
+                        </td>
+                    </tr>
                 </table>
             </div>
             <div id="image_search"></div>
@@ -48,20 +57,12 @@
 
         <script type="text/javascript">
             (function () {
-                function elemById(id) {
-                    return document.getElementById(id)
-                }
-
-                function sendConfig() {
-                    chat.ports.configIn.send(configIn);
-                }
-
                 var configIn =
                     { width : 300
                     , imagePadding : 8
                     , googleCustomSearchId : ""
                     , googleApiKey : ""
-                    , googleTestResponse : false
+                    , googleTestResponse : true
                     , language : "Hun"
                     }
 
@@ -72,20 +73,26 @@
                     }
                 );
 
-                elemById("config_lang").addEventListener("change", function(e) {
-                     configIn.language = e.srcElement.value;
-                     sendConfig();
-                });
+                function elemById(id) {
+                    return document.getElementById(id)
+                }
 
-                elemById("config_google_api_key").addEventListener("change", function(e) {
-                     configIn.googleApiKey = e.srcElement.value;
-                     sendConfig();
-                });
+                function sendConfig() {
+                    chat.ports.configIn.send(configIn);
+                }
 
-                elemById("config_google_custom_search_id").addEventListener("change", function(e) {
-                     configIn.googleCustomSearchId = e.srcElement.value;
-                     sendConfig();
-                });
+                function addConfigChangeListener(id, confKey, valueTrans) {
+                    elemById(id).addEventListener("change", function(e) {
+                        var inputValue = e.srcElement.value;
+                        configIn[confKey] = valueTrans ? valueTrans(inputValue) : inputValue;
+                        sendConfig();
+                    });
+                }
+
+                addConfigChangeListener("config_lang", "language");
+                addConfigChangeListener("config_google_api_key", "googleApiKey");
+                addConfigChangeListener("config_google_custom_search_id", "googleCustomSearchId");
+                addConfigChangeListener("config_google_test_response", "googleTestResponse", function(v) { return v == 1; });
             })();
         </script>
     </body>
