@@ -108,6 +108,17 @@ searchResults config =
 
 {- UI -}
 
+searchWidgetElement : Config -> Labels.Labels -> State -> [SearchResult] -> Html
+searchWidgetElement config labels state results =
+        node "div"
+            [ Css.widget ]
+            []
+            [ headerElement labels.searchTitle
+            , searchInputElement
+            , submitButtonElement labels.submit
+            , searchResultsElement config results
+            ]
+
 submitButtonElement : String -> Html
 submitButtonElement label = 
     eventNode "input"
@@ -136,21 +147,10 @@ searchInputElement =
         ]
         []
 
-searchWidgetElement : Config -> Labels.Labels -> State -> [SearchResult] -> Html
-searchWidgetElement config labels state results =
-        node "div"
-            [ Css.widget ]
-            []
-            [ headerElement labels.searchTitle
-            , searchInputElement
-            , submitButtonElement labels.submit
-            , searchResultsElement config results
-            ]
-
 searchResultsElement : Config -> [SearchResult] -> Html
 searchResultsElement config results =
     node "div"
-        []
+        [ Css.results ]
         []
         (concatMap (\r -> map (searchResultEntryElement config) r) results)
 
@@ -161,7 +161,7 @@ searchResultEntryElement config entry =
         imgScale = w / (toFloat entry.thumbnailWidth)
     in
         node "div"
-            []
+            [ Css.resultEntry ]
             []
             [ node "img"
                 [ "src"    := entry.thumbnailUrl

@@ -8,4 +8,6 @@ cssClass shortCssClassName = "className" := ("prezi-img-search-" ++ shortCssClas
 header = cssClass "header"
 input = cssClass "input"
 widget = cssClass "widget"
+results = cssClass "results"
+resultEntry = cssClass "result-entry"
 submit = cssClass "submit"
