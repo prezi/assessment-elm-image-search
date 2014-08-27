@@ -37,7 +37,7 @@ jsonToEntry : Json.Value -> SearchResultEntry
 jsonToEntry imageJson =
     { url             = getStringPropOrElse "" "url"             imageJson
     , width           = getIntPropOrElse    0  "width"           imageJson
-    , height          = getIntPropOrElse    0  "hegiht"          imageJson
+    , height          = getIntPropOrElse    0  "height"          imageJson
     , thumbnailUrl    = getStringPropOrElse "" "thumbnailUrl"    imageJson
     , thumbnailWidth  = getIntPropOrElse    0  "thumbnailWidth"  imageJson
     , thumbnailHeight = getIntPropOrElse    0  "thumbnailHeight" imageJson
