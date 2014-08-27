@@ -1,3 +1,5 @@
+module PreziImageSearchDemo where
+
 import PreziImageSearch
 import PreziImageSearch.Config as Config
 import PreziImageSearch.Config (..)
