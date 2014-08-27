@@ -119,13 +119,6 @@ submitButtonElement label =
         [ onclick submitButtonClicks.handle (always ()) ]
         []
 
-charCountElement : Int -> Html
-charCountElement cnt =
-    node "div"
-        []
-        []
-        [ text (show cnt) ]
-
 headerElement : String -> Html
 headerElement label = 
     node "div"
@@ -150,7 +143,6 @@ searchWidgetElement config labels state results =
             []
             [ headerElement labels.searchTitle
             , searchInputElement
-            , charCountElement state.charCount
             , submitButtonElement labels.submit
             , searchResultsElement config results
             ]
@@ -178,13 +170,4 @@ searchResultEntryElement config entry =
                 , "height" := px ((toFloat entry.thumbnailHeight) * imgScale)
                 ]
                 []
-            {-- Debug
-                , node "div"
-                []
-                []
-                [ text (show entry)
-                , text (show config)
-                , text (show imgScale)
-                ]
-            --}
             ]
