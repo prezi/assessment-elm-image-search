@@ -16,22 +16,10 @@ port configIn : Signal
 convertedConfigSignal = convertConfig <~ configIn
 
 convertConfig jsConf =
-    { jsConf | googleTestResponse <- False
-             , language <-
+    { jsConf | language <-
                 case jsConf.language of
                     "Hun" -> Config.Hun
                     "Eng" -> Config.Eng
-    }
-
-
-config : Config.Config
-config =
-    { width                = 300
-    , imagePadding         = 8
-    , googleCustomSearchId = ""
-    , googleApiKey         = ""
-    , googleTestResponse   = False
-    , language             = Config.Hun
     }
 
 main : Signal Element
