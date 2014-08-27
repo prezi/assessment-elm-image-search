@@ -1,0 +1,46 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	background-color: #EEEEEE;
+}
+
+#demo_cont {
+	border: 1px solid #777777;
+	height: 500px;
+	margin: 10px;
+	background-color: #FFFFFF;
+}
+
+#demo_app {
+	margin-right: -329px;
+	width: 100%;
+	float: left;
+	padding: 10px;
+}
+
+#image_search {
+	width: 328 px;
+	float: left;
+	border-left: 1px solid #777777;
+}
+
+.prezi-img-search-results {
+	height: 400px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.prezi-img-search-result-col {
+	float: left;
+	width: 50%;
+}
+
+.prezi-img-search-result-entry {
+	float: left;
+	display: block;
+	padding: 3px;
+}

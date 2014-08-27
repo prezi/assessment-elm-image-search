@@ -8,16 +8,54 @@
         <link rel="stylesheet" type="text/css" href="/embed_demo/css/demo.css">
     </head>
     <body>
-        <div>
-            <div></div>
+        <div id="demo_cont">
+            <div id="demo_app">
+                <h2>
+                    Sample host application for PreziImageSearchEmbed.elm
+                </h2>
+
+                <div>
+                    Language:
+                    <select id="config_lang">
+                        <option value="Hun" selected="selected">Magyar</option>
+                        <option value="Eng">English</option>
+                    </select>
+                </div>
+            </div>
             <div id="image_search"></div>
         </div>
 
         <script type="text/javascript">
-            Elm.embed (
-                Elm.PreziImageSearchEmbed,
-                document.getElementById("image_search")
-            )
+            (function () {
+                function elemById(id) {
+                    return document.getElementById(id)
+                }
+
+                function sendConfig() {
+                    chat.ports.configIn.send(configIn);
+                }
+
+                var configIn =
+                    { width : 300
+                    , imagePadding : 8
+                    , googleCustomSearchId : ""
+                    , googleApiKey : ""
+                    , googleTestResponse : false
+                    , language : "Hun"
+                    }
+
+                var chat = Elm.embed (
+                    Elm.PreziImageSearchEmbed,
+                    elemById("image_search"),
+                    { configIn : configIn
+                    }
+                );
+
+                elemById("config_lang").addEventListener("change", function(e) {
+                     configIn.language = e.srcElement.value;
+                     sendConfig();
+                });
+            })();
         </script>
     </body>
 </html>
