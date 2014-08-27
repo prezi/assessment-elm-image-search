@@ -15,7 +15,7 @@ import PreziImageSearch.Config (Config)
 import PreziImageSearch.Labels as Labels
 import PreziImageSearch.SearchEngine (..)
 import PreziImageSearch.TestSearchEngine as TestSearchEnigne
--- import PreziImageSearch.GoogleSearchEngine as GoogleSearchEnigne
+import PreziImageSearch.GoogleSearchEngine as GoogleSearchEnigne
 
 {- API -}
 
@@ -97,11 +97,9 @@ searchQueries = searchQuery <~ searchSubmits
 searchResults : Signal Config -> Signal [SearchResult]
 searchResults config = 
     combine
-        [ (TestSearchEnigne.results searchQueries)
+        [ (GoogleSearchEnigne.results config searchQueries)
         , (TestSearchEnigne.results searchQueries)
         ]
--- searchResults config = GoogleSearchEnigne.results config searchQueries
-
 
 {- UI -}
 
