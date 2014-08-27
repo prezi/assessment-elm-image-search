@@ -8,6 +8,8 @@ import PreziImageSearch.Config (Config)
 import PreziImageSearch.SearchEngine (..)
 import PreziImageSearch.JsonUtil (..)
 
+import Native.PreziImageSearch
+
 results : Signal Config -> Signal SearchQuery -> Signal SearchResult
 results config queries = jsonStringToResults config queries
 
@@ -75,9 +77,8 @@ addGetParamters : String -> [(String, String)] -> String
 addGetParamters baseUrl parameters =
     baseUrl ++ "?" ++ (join "&" <| map (\(k, v) -> encode(k) ++ "=" ++ encode(v)) parameters)
 
--- TODO:
 encode : String -> String
-encode s = s
+encode = Native.PreziImageSearch
 
 httpResponseToString : Http.Response String -> String
 httpResponseToString httpResponse =
