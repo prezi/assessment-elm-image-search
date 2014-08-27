@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>PreziImageSearchDemo</title>
+        <script type="text/javascript" src="http://elm-lang.org/elm-runtime.js"></script>
+        <script type="text/javascript" src="/build/PreziImageSearchEmbed.js"></script>
+        <link rel="stylesheet" type="text/css" href="/embed_demo/css/demo.css">
+    </head>
+    <body>
+        <div>
+            <div></div>
+            <div id="image_search"></div>
+        </div>
+
+        <script type="text/javascript">
+            Elm.embed (
+                Elm.PreziImageSearchEmbed,
+                document.getElementById("image_search")
+            )
+        </script>
+    </body>
+</html>
