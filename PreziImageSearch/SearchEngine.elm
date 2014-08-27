@@ -3,13 +3,12 @@ module PreziImageSearch.SearchEngine where
 type SearchQuery  = String
 type SearchResult = [SearchResultEntry]
 type SearchResultEntry =
-    { url : String
-    , thumbnailUrl : String
+    { url             : String
+    , width           : Int
+    , height          : Int
+    , thumbnailUrl    : String
+    , thumbnailWidth  : Int
+    , thumbnailHeight : Int
     }
 type SearchEngine = Signal SearchResult
 
-newSearchResultEntry : String -> String -> SearchResultEntry
-newSearchResultEntry url thumbnailUrl =
-    { url          = url
-    , thumbnailUrl = thumbnailUrl
-    }

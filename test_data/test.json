@@ -1,10 +1,109 @@
 {
 	"images" :
 	[	{ "url": "http://placekitten.com/640/480"
+		, "width" : 640
+		, "height" : 480
 		, "thumbnailUrl" : "http://placekitten.com/640/480"
+		, "thumbnailWidth" : 640
+		, "thumbnailHeight" : 480
 		}
 	,	{ "url": "http://placekitten.com/480/640"
+		, "width" : 480
+		, "height" : 640
 		, "thumbnailUrl" : "http://placekitten.com/480/640"
+		, "thumbnailWidth" : 480
+		, "thumbnailHeight" : 640
+		}
+	,	{ "url": "http://placekitten.com/501/500"
+		, "width" : 501
+		, "height" : 500
+		, "thumbnailUrl" : "http://placekitten.com/501/500"
+		, "thumbnailWidth" : 501
+		, "thumbnailHeight" : 500
+		}
+	,	{ "url": "http://placekitten.com/600/200"
+		, "width" : 600
+		, "height" : 200
+		, "thumbnailUrl" : "http://placekitten.com/600/200"
+		, "thumbnailWidth" : 600
+		, "thumbnailHeight" : 200
+		}
+	,	{ "url": "http://placekitten.com/200/400"
+		, "width" : 200
+		, "height" : 400
+		, "thumbnailUrl" : "http://placekitten.com/200/400"
+		, "thumbnailWidth" : 200
+		, "thumbnailHeight" : 400
+		}
+	,	{ "url": "http://placekitten.com/640/480"
+		, "width" : 640
+		, "height" : 480
+		, "thumbnailUrl" : "http://placekitten.com/640/480"
+		, "thumbnailWidth" : 640
+		, "thumbnailHeight" : 480
+		}
+	,	{ "url": "http://placekitten.com/480/640"
+		, "width" : 480
+		, "height" : 640
+		, "thumbnailUrl" : "http://placekitten.com/480/640"
+		, "thumbnailWidth" : 480
+		, "thumbnailHeight" : 640
+		}
+	,	{ "url": "http://placekitten.com/501/500"
+		, "width" : 501
+		, "height" : 500
+		, "thumbnailUrl" : "http://placekitten.com/501/500"
+		, "thumbnailWidth" : 501
+		, "thumbnailHeight" : 500
+		}
+	,	{ "url": "http://placekitten.com/600/200"
+		, "width" : 600
+		, "height" : 200
+		, "thumbnailUrl" : "http://placekitten.com/600/200"
+		, "thumbnailWidth" : 600
+		, "thumbnailHeight" : 200
+		}
+	,	{ "url": "http://placekitten.com/200/400"
+		, "width" : 200
+		, "height" : 400
+		, "thumbnailUrl" : "http://placekitten.com/200/400"
+		, "thumbnailWidth" : 200
+		, "thumbnailHeight" : 400
+		}
+	,	{ "url": "http://placekitten.com/640/480"
+		, "width" : 640
+		, "height" : 480
+		, "thumbnailUrl" : "http://placekitten.com/640/480"
+		, "thumbnailWidth" : 640
+		, "thumbnailHeight" : 480
+		}
+	,	{ "url": "http://placekitten.com/480/640"
+		, "width" : 480
+		, "height" : 640
+		, "thumbnailUrl" : "http://placekitten.com/480/640"
+		, "thumbnailWidth" : 480
+		, "thumbnailHeight" : 640
+		}
+	,	{ "url": "http://placekitten.com/501/500"
+		, "width" : 501
+		, "height" : 500
+		, "thumbnailUrl" : "http://placekitten.com/501/500"
+		, "thumbnailWidth" : 501
+		, "thumbnailHeight" : 500
+		}
+	,	{ "url": "http://placekitten.com/600/200"
+		, "width" : 600
+		, "height" : 200
+		, "thumbnailUrl" : "http://placekitten.com/600/200"
+		, "thumbnailWidth" : 600
+		, "thumbnailHeight" : 200
+		}
+	,	{ "url": "http://placekitten.com/200/400"
+		, "width" : 200
+		, "height" : 400
+		, "thumbnailUrl" : "http://placekitten.com/200/400"
+		, "thumbnailWidth" : 200
+		, "thumbnailHeight" : 400
 		}
 	]
 }

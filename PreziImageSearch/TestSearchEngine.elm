@@ -3,6 +3,8 @@ module PreziImageSearch.TestSearchEngine where
 import Dict
 import Http
 import Json
+
+import PreziImageSearch.JsonUtil (..)
 import PreziImageSearch.SearchEngine (..)
 
 results : Signal SearchQuery -> Signal SearchResult
@@ -20,9 +22,7 @@ httpResponseToResult httpResponse =
 
 httpBodyToResult : String -> SearchResult
 httpBodyToResult body =
-    case Json.fromString body of
-        Just value -> jsonToResult value
-        Nothing    -> []
+    maybe [] (\v -> jsonToResult v) (Json.fromString body)
 
 jsonToResult : Json.Value -> SearchResult
 jsonToResult value =
@@ -35,16 +35,10 @@ jsonToResult value =
 
 jsonToEntry : Json.Value -> SearchResultEntry
 jsonToEntry imageJson =
-    newSearchResultEntry
-        (getStringPropOrElse "" "url" imageJson)
-        (getStringPropOrElse "" "thumbnailUrl" imageJson)
-
-getStringPropOrElse : String -> String -> Json.Value -> String
-getStringPropOrElse def key obj =
-    case obj of
-        Json.Object dict ->
-            case Dict.get key dict of
-                Just (Json.String str) -> str
-                Nothing                -> def
-        otherwise        ->
-            def
+    { url             = getStringPropOrElse "" "url"             imageJson
+    , width           = getIntPropOrElse    0  "width"           imageJson
+    , height          = getIntPropOrElse    0  "hegiht"          imageJson
+    , thumbnailUrl    = getStringPropOrElse "" "thumbnailUrl"    imageJson
+    , thumbnailWidth  = getIntPropOrElse    0  "thumbnailWidth"  imageJson
+    , thumbnailHeight = getIntPropOrElse    0  "thumbnailHeight" imageJson
+    }

@@ -162,22 +162,30 @@ searchResultsElement config results =
         []
         (concatMap (\r -> map (searchResultEntryElement config) r) results)
 
-
-
 searchResultEntryElement : Config -> SearchResultEntry -> Html
-searchResultEntryElement config entry = 
-    node "div"
-        []
-        []
-        [ node "img"
-            [ "src"    := entry.thumbnailUrl
-            ]
-            [ "border" := "1px solid #FF00ff"
-            , "width"  := px 100
-            , "height" := px 50
-            ]
+searchResultEntryElement config entry =
+    let
+        w = (toFloat (config.width - 4 * config.imagePadding)) / 2.0
+        imgScale = w / (toFloat entry.thumbnailWidth)
+    in
+        node "div"
             []
-        ]
-
-
-
+            []
+            [ node "img"
+                [ "src"    := entry.thumbnailUrl
+                ]
+                [ "border" := "1px solid #FF00ff"
+                , "width"  := px w
+                , "height" := px ((toFloat entry.thumbnailHeight) * imgScale)
+                ]
+                []
+            {-- Debug
+                , node "div"
+                []
+                []
+                [ text (show entry)
+                , text (show config)
+                , text (show imgScale)
+                ]
+            --}
+            ]

@@ -5,6 +5,7 @@ import PreziImageSearch.Config (..)
 config : Config.Config
 config =
     { width                = 300
+    , imagePadding         = 3
     , googleCustomSearchId = ""
     , googleApiKey         = ""
     , googleTestResponse   = False
