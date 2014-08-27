@@ -15,5 +15,5 @@ config =
     }
 
 main : Signal Element
-main = PreziImageSearch.widget config
+main = PreziImageSearch.widget (constant config)
 

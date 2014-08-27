@@ -1,5 +1,6 @@
 module PreziImageSearch.Widget where
 
+import Array
 import Graphics.Input (Input)
 import Graphics.Input as Input
 import Html
@@ -18,12 +19,8 @@ import PreziImageSearch.TestSearchEngine as TestSearchEnigne
 
 {- API -}
 
-widget : Config -> Signal Element
-widget config = scene config <~ state ~ searchResults config ~ Window.dimensions
-
-{- "Const" -}
-
-enterKeyCode = 13
+widget : Signal Config -> Signal Element
+widget config = scene <~ config ~ state ~ (searchResults config) ~ Window.dimensions
 
 {- Model -}
 
@@ -97,7 +94,7 @@ searchSubmits =
 searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
 
-searchResults : Config -> Signal [SearchResult]
+searchResults : Signal Config -> Signal [SearchResult]
 searchResults config = 
     combine
         [ (TestSearchEnigne.results searchQueries)
@@ -149,10 +146,19 @@ searchInputElement =
 
 searchResultsElement : Config -> [SearchResult] -> Html
 searchResultsElement config results =
-    node "div"
-        [ Css.results ]
-        []
-        (concatMap (\r -> map (searchResultEntryElement config) r) results)
+    let
+        flatResults = concat results
+        flatResultsWithIdx = zip [1 .. length flatResults] flatResults
+        (col1WithIdx, col2WithIdx) = partition (\(idx, e) -> mod idx 2 == 1) flatResultsWithIdx
+        colElems colWithIdx =  map (\(idx, e) -> searchResultEntryElement config e) colWithIdx
+        col colWithIdx = node "div" [ Css.resultCol ] [] (colElems colWithIdx)
+    in
+        node "div"
+            [ Css.results ]
+            []
+            [ col col1WithIdx
+            , col col2WithIdx
+            ]
 
 searchResultEntryElement : Config -> SearchResultEntry -> Html
 searchResultEntryElement config entry =
