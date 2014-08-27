@@ -78,7 +78,7 @@ addGetParamters baseUrl parameters =
     baseUrl ++ "?" ++ (join "&" <| map (\(k, v) -> encode(k) ++ "=" ++ encode(v)) parameters)
 
 encode : String -> String
-encode = Native.PreziImageSearch
+encode = Native.PreziImageSearch.encodeUri
 
 httpResponseToString : Http.Response String -> String
 httpResponseToString httpResponse =
