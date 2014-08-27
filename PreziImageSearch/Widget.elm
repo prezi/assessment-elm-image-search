@@ -5,7 +5,7 @@ import Graphics.Input (Input)
 import Graphics.Input as Input
 import Html
 import Html (eventNode, node, px, text, toElement, (:=), Attribute, Html)
-import Html.Events (getValue, getKeyboardEvent, on, onclick, onkeydown, onkeyup, when)
+import Html.Events (getValue, getKeyboardEvent, on, onclick, ondblclick, onkeydown, onkeyup, when)
 import Http
 import Maybe
 import Window
@@ -21,6 +21,9 @@ import PreziImageSearch.GoogleSearchEngine as GoogleSearchEnigne
 
 widget : Signal Config -> Signal Element
 widget config = scene <~ config ~ state ~ (searchResults config) ~ Window.dimensions
+
+selectedImages : Signal SearchResultEntry
+selectedImages = imageSelections.signal
 
 {- Model -}
 
@@ -79,6 +82,8 @@ submitButtonClicks = Input.input ()
 inputEnterKeyDowns : Input ()
 inputEnterKeyDowns = Input.input ()
 
+imageSelections : Input SearchResultEntry
+imageSelections = Input.input emptySearchResult
 
 state : Signal State
 state = foldp step emptyState actions.signal
@@ -167,11 +172,13 @@ searchResultEntryElement config entry =
         node "div"
             [ Css.resultEntry ]
             []
-            [ node "img"
+            [ eventNode "img"
                 [ "src"    := entry.thumbnailUrl
                 ]
                 [ "width"  := px w
                 , "height" := px ((toFloat entry.thumbnailHeight) * imgScale)
+                ]
+                [ ondblclick imageSelections.handle (always entry)
                 ]
                 []
             ]

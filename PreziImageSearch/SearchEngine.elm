@@ -12,3 +12,12 @@ type SearchResultEntry =
     }
 type SearchEngine = Signal SearchResult
 
+emptySearchResult =
+    { url             = ""
+    , width           = 0
+    , height          = 0
+    , thumbnailUrl    = ""
+    , thumbnailWidth  = 0
+    , thumbnailHeight = 0
+    }
+
