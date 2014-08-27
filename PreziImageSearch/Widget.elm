@@ -147,7 +147,7 @@ searchWidgetElement : Config -> Labels.Labels -> State -> [SearchResult] -> Html
 searchWidgetElement config labels state results =
         node "div"
             [ Css.widget ]
-            [ "border" := "1px solid #FF00FF" ]
+            []
             [ headerElement labels.searchTitle
             , searchInputElement
             , charCountElement state.charCount
@@ -174,8 +174,7 @@ searchResultEntryElement config entry =
             [ node "img"
                 [ "src"    := entry.thumbnailUrl
                 ]
-                [ "border" := "1px solid #FF00ff"
-                , "width"  := px w
+                [ "width"  := px w
                 , "height" := px ((toFloat entry.thumbnailHeight) * imgScale)
                 ]
                 []
