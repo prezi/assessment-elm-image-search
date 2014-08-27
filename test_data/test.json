@@ -1,6 +1,10 @@
 {
-	"results" : [	{ "url": "test_img1.gif" }
-				,	{ "url": "test_img2.gif" }
-				,	{ "url": "test_img1.gif" }
-				]
+	"images" :
+	[	{ "url": "http://placekitten.com/640/480"
+		, "thumbnailUrl" : "http://placekitten.com/640/480"
+		}
+	,	{ "url": "http://placekitten.com/480/640"
+		, "thumbnailUrl" : "http://placekitten.com/480/640"
+		}
+	]
 }

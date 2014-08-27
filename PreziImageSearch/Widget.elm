@@ -3,7 +3,7 @@ module PreziImageSearch.Widget where
 import Graphics.Input (Input)
 import Graphics.Input as Input
 import Html
-import Html (eventNode, node, text, toElement, (:=), Attribute, Html)
+import Html (eventNode, node, px, text, toElement, (:=), Attribute, Html)
 import Html.Events (getValue, getKeyboardEvent, on, onclick, onkeydown, onkeyup, when)
 import Http
 import Maybe
@@ -14,7 +14,7 @@ import PreziImageSearch.Config (Config)
 import PreziImageSearch.Labels as Labels
 import PreziImageSearch.SearchEngine (..)
 import PreziImageSearch.TestSearchEngine as TestSearchEnigne
-import PreziImageSearch.GoogleSearchEngine as GoogleSearchEnigne
+-- import PreziImageSearch.GoogleSearchEngine as GoogleSearchEnigne
 
 {- API -}
 
@@ -97,7 +97,9 @@ searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
 
 searchResults : Config -> Signal SearchResult
-searchResults config = GoogleSearchEnigne.results config searchQueries
+searchResults config = TestSearchEnigne.results searchQueries
+-- searchResults config = GoogleSearchEnigne.results config searchQueries
+
 
 {- UI -}
 
@@ -149,16 +151,28 @@ searchWidgetElement labels state searchResult =
             ]
 
 searchResultElement : SearchResult -> Html
-searchResultElement searchResult = 
+searchResultElement result = 
     node "div"
         []
         []
-        [ node "textarea"
-            []
-            []
-            [ text (show searchResult) ]
-        ]
+        (map searchResultEntryElement result)
 
+
+
+searchResultEntryElement : SearchResultEntry -> Html
+searchResultEntryElement entry = 
+    node "div"
+        []
+        []
+        [ node "img"
+            [ "src"    := entry.thumbnailUrl
+            ]
+            [ "border" := "1px solid #FF00ff"
+            , "width"  := px 100
+            , "height" := px 50
+            ]
+            []
+        ]
 
 
 
