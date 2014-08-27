@@ -57,15 +57,16 @@ step action state =
 
 {- To be lifted -}
 
-scene : Config -> State -> SearchResult -> (Int, Int) -> Element
-scene config state searchResult (w, h) = 
+scene : Config -> State -> [SearchResult] -> (Int, Int) -> Element
+scene config state results (w, h) = 
     toElement
         config.width
         h
         (searchWidgetElement
+            config
             (Labels.labels config.language)
             state
-            searchResult)
+            results)
 
 searchQuery : State -> String
 searchQuery state =  state.searchText
@@ -96,8 +97,12 @@ searchSubmits =
 searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
 
-searchResults : Config -> Signal SearchResult
-searchResults config = TestSearchEnigne.results searchQueries
+searchResults : Config -> Signal [SearchResult]
+searchResults config = 
+    combine
+        [ (TestSearchEnigne.results searchQueries)
+        , (TestSearchEnigne.results searchQueries)
+        ]
 -- searchResults config = GoogleSearchEnigne.results config searchQueries
 
 
@@ -138,8 +143,8 @@ searchInputElement =
         ]
         []
 
-searchWidgetElement : Labels.Labels -> State -> SearchResult -> Html
-searchWidgetElement labels state searchResult =
+searchWidgetElement : Config -> Labels.Labels -> State -> [SearchResult] -> Html
+searchWidgetElement config labels state results =
         node "div"
             [ Css.widget ]
             [ "border" := "1px solid #FF00FF" ]
@@ -147,20 +152,20 @@ searchWidgetElement labels state searchResult =
             , searchInputElement
             , charCountElement state.charCount
             , submitButtonElement labels.submit
-            , searchResultElement searchResult
+            , searchResultsElement config results
             ]
 
-searchResultElement : SearchResult -> Html
-searchResultElement result = 
+searchResultsElement : Config -> [SearchResult] -> Html
+searchResultsElement config results =
     node "div"
         []
         []
-        (map searchResultEntryElement result)
+        (concatMap (\r -> map (searchResultEntryElement config) r) results)
 
 
 
-searchResultEntryElement : SearchResultEntry -> Html
-searchResultEntryElement entry = 
+searchResultEntryElement : Config -> SearchResultEntry -> Html
+searchResultEntryElement config entry = 
     node "div"
         []
         []
