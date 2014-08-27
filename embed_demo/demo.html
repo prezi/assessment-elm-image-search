@@ -14,13 +14,34 @@
                     Sample host application for PreziImageSearchEmbed.elm
                 </h2>
 
-                <div>
-                    Language:
-                    <select id="config_lang">
-                        <option value="Hun" selected="selected">Magyar</option>
-                        <option value="Eng">English</option>
-                    </select>
-                </div>
+                
+                <h3>
+                    Options
+                </h3>
+
+                <table>
+                    <tr>
+                        <td>Language</td>
+                        <td>
+                            <select id="config_lang">
+                                <option value="Hun" selected="selected">Magyar</option>
+                                <option value="Eng">English</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Google Api Key</td>
+                        <td>
+                            <input id="config_google_api_key"></input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Google Custom Search Id</td>
+                        <td>
+                            <input id="config_google_custom_search_id"></input>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div id="image_search"></div>
         </div>
@@ -53,6 +74,16 @@
 
                 elemById("config_lang").addEventListener("change", function(e) {
                      configIn.language = e.srcElement.value;
+                     sendConfig();
+                });
+
+                elemById("config_google_api_key").addEventListener("change", function(e) {
+                     configIn.googleApiKey = e.srcElement.value;
+                     sendConfig();
+                });
+
+                elemById("config_google_custom_search_id").addEventListener("change", function(e) {
+                     configIn.googleCustomSearchId = e.srcElement.value;
                      sendConfig();
                 });
             })();
