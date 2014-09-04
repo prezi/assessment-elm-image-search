@@ -10,8 +10,8 @@ getStringPropOrElse def key obj =
             case Dict.get key dict of
                 Just (Json.String str) -> str
                 _                      -> def
-        otherwise        ->
-            def
+        _ -> def
+
 
 getIntPropOrElse : Int -> String -> Json.Value -> Int
 getIntPropOrElse def key obj =
@@ -19,6 +19,5 @@ getIntPropOrElse def key obj =
         Json.Object dict ->
             case Dict.get key dict of
                 Just (Json.Number num) -> round num
-                otherwise              -> def
-        otherwise        ->
-            def
+                _                      -> def
+        _ -> def
