@@ -20,22 +20,28 @@ import PreziImageSearch.GoogleSearchEngine as GoogleSearchEnigne
 {- API -}
 
 widget : Signal Config -> Signal Element
-widget config = scene <~ config ~ state ~ (searchResults config) ~ Window.dimensions
+widget config =
+    scene
+        <~ config
+        ~ state
+        ~ (searchResults config)
+        ~ Window.dimensions
 
 selectedImages : Signal SearchResultEntry
-selectedImages = imageSelections.signal
+selectedImages =
+    imageSelections.signal
 
 {- Model -}
 
-type State =
-    { charCount  : Int
-    , searchText : String
+type State = {
+        charCount  : Int,
+        searchText : String
     }
 
 emptyState : State
-emptyState = 
-    { charCount  = 0
-    , searchText = ""
+emptyState = {
+        charCount  = 0,
+        searchText = ""
     }
 
 
@@ -51,8 +57,9 @@ step action state =
         NoOp -> state
 
         UpdateSearchText value ->
-            { state | charCount <- String.length value
-                    , searchText <- value
+            { state |
+                charCount <- String.length value,
+                searchText <- value
             }
 
 {- To be lifted -}
@@ -69,24 +76,35 @@ scene config state results (w, h) =
             results)
 
 searchQuery : State -> String
-searchQuery state =  state.searchText
+searchQuery state =
+    state.searchText
 
 {- Signals and inputs -}
 
 actions : Input Action
-actions = Input.input NoOp
+actions =
+    Input.input NoOp
+
 
 submitButtonClicks : Input ()
-submitButtonClicks = Input.input ()
+submitButtonClicks =
+    Input.input ()
+
 
 inputEnterKeyDowns : Input ()
-inputEnterKeyDowns = Input.input ()
+inputEnterKeyDowns =
+    Input.input ()
+
 
 imageSelections : Input SearchResultEntry
-imageSelections = Input.input emptySearchResult
+imageSelections =
+    Input.input emptySearchResult
+
 
 state : Signal State
-state = foldp step emptyState actions.signal
+state =
+    foldp step emptyState actions.signal
+
 
 searchSubmits : Signal State 
 searchSubmits = 
@@ -96,89 +114,112 @@ searchSubmits =
             inputEnterKeyDowns.signal)
         state
 
+
 searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
 
+
 searchResults : Signal Config -> Signal [SearchResult]
 searchResults config = 
-    combine
-        [ (GoogleSearchEnigne.results config searchQueries)
-        , (TestSearchEnigne.results searchQueries)
+    combine [
+            (GoogleSearchEnigne.results config searchQueries),
+            (TestSearchEnigne.results searchQueries)
         ]
 
 {- UI -}
 
 searchWidgetElement : Config -> Labels.Labels -> State -> [SearchResult] -> Html
 searchWidgetElement config labels state results =
-        node "div"
-            [ Css.widget ]
-            []
-            [ headerElement labels.searchTitle
-            , searchInputElement
-            , submitButtonElement labels.submit
-            , searchResultsElement config results
-            ]
+    node
+        "div"
+        [ Css.widget ]
+        []
+        [
+            headerElement labels.searchTitle,
+            searchInputElement,
+            submitButtonElement labels.submit,
+            searchResultsElement config results
+        ]
+
 
 submitButtonElement : String -> Html
 submitButtonElement label = 
-    eventNode "input"
-        [ Css.submit
-        , "type" := "button"
-        , "value" := label
+    eventNode
+        "input"
+        [
+            Css.submit,
+            "type" := "button",
+            "value" := label
         ]
         []
         [ onclick submitButtonClicks.handle (always ()) ]
         []
 
+
 headerElement : String -> Html
 headerElement label = 
-    node "div"
+    node
+        "div"
         [ Css.header ]
         []
         [ text label ]
 
+
 searchInputElement : Html
 searchInputElement = 
-    eventNode "input"
+    eventNode
+        "input"
         [ Css.input ]
         []
-        [ on "keydown" (when (\e -> e.keyCode == 13) getKeyboardEvent) inputEnterKeyDowns.handle (always ())
-        , on "keyup" (getValue) actions.handle UpdateSearchText
+        [
+            on
+                "keydown"
+                (when (\e -> e.keyCode == 13) getKeyboardEvent)
+                inputEnterKeyDowns.handle
+                (always ()),
+            on
+                "keyup"
+                getValue
+                actions.handle
+                UpdateSearchText
         ]
         []
 
+
 searchResultsElement : Config -> [SearchResult] -> Html
 searchResultsElement config results =
-    let
-        flatResults = concat results
+    let flatResults = concat results
         flatResultsWithIdx = zip [1 .. length flatResults] flatResults
         (col1WithIdx, col2WithIdx) = partition (\(idx, e) -> mod idx 2 == 1) flatResultsWithIdx
         colElems colWithIdx =  map (\(idx, e) -> searchResultEntryElement config e) colWithIdx
         col colWithIdx = node "div" [ Css.resultCol ] [] (colElems colWithIdx)
     in
-        node "div"
+        node
+            "div"
             [ Css.results ]
             []
-            [ col col1WithIdx
-            , col col2WithIdx
+            [
+                col col1WithIdx,
+                col col2WithIdx
             ]
+
 
 searchResultEntryElement : Config -> SearchResultEntry -> Html
 searchResultEntryElement config entry =
-    let
-        w = (toFloat (config.width - 4 * config.imagePadding)) / 2.0
+    let w = (toFloat (config.width - 4 * config.imagePadding)) / 2.0
         imgScale = w / (toFloat entry.thumbnailWidth)
     in
-        node "div"
+        node
+            "div"
             [ Css.resultEntry ]
             []
-            [ eventNode "img"
-                [ "src"    := entry.thumbnailUrl
-                ]
-                [ "width"  := px w
-                , "height" := px ((toFloat entry.thumbnailHeight) * imgScale)
-                ]
-                [ ondblclick imageSelections.handle (always entry)
-                ]
-                []
+            [
+                eventNode "img"
+                    [ "src"    := entry.thumbnailUrl ]
+                    [
+                        "width"  := px w,
+                        "height" := px ((toFloat entry.thumbnailHeight) * imgScale)
+                    ]
+                    [ ondblclick imageSelections.handle (always entry) ]
+                    []
             ]
