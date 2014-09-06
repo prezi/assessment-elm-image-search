@@ -24,8 +24,8 @@ httpResponseToResult : Http.Response String -> SearchResult
 httpResponseToResult httpResponse =
     case httpResponse of
         Http.Success body -> httpBodyToResult body
-        Http.Waiting      -> []
-        Http.Failure _ _  -> []
+        Http.Waiting -> []
+        Http.Failure _ _ -> []
 
 
 httpBodyToResult : String -> SearchResult
@@ -45,10 +45,10 @@ jsonToResult value =
 
 jsonToEntry : Json.Value -> SearchResultEntry
 jsonToEntry imageJson = {
-        url             = getStringPropOrElse "" "url"             imageJson,
-        width           = getIntPropOrElse    0  "width"           imageJson,
-        height          = getIntPropOrElse    0  "height"          imageJson,
-        thumbnailUrl    = getStringPropOrElse "" "thumbnailUrl"    imageJson,
-        thumbnailWidth  = getIntPropOrElse    0  "thumbnailWidth"  imageJson,
-        thumbnailHeight = getIntPropOrElse    0  "thumbnailHeight" imageJson,
+        url = getStringPropOrElse "" "url" imageJson,
+        width = getIntPropOrElse 0 "width" imageJson,
+        height = getIntPropOrElse 0 "height" imageJson,
+        thumbnailUrl = getStringPropOrElse "" "thumbnailUrl" imageJson,
+        thumbnailWidth = getIntPropOrElse 0 "thumbnailWidth" imageJson,
+        thumbnailHeight = getIntPropOrElse 0 "thumbnailHeight" imageJson,
     }

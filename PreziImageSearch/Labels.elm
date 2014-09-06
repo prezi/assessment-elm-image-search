@@ -3,9 +3,9 @@ module PreziImageSearch.Labels where
 import PreziImageSearch.Config as Config
 
 type Labels = {
-        title       : String,
+        title : String,
         searchTitle : String,
-        submit      : String
+        submit : String
     }
 
 
@@ -18,15 +18,15 @@ labels lang =
 
 engLabels : Labels
 engLabels = {
-        title       = "Insert image",
+        title = "Insert image",
         searchTitle = "Search images on the web",
-        submit      = "Search"
+        submit = "Search"
     }
 
 
 hunLabels : Labels
 hunLabels = {
-        title       = "Kép beillesztése",
+        title = "Kép beillesztése",
         searchTitle = "Kép keresése az interneten",
-        submit      = "Keres"
+        submit = "Keres"
     }
