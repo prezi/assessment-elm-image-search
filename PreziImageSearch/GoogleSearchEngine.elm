@@ -1,4 +1,4 @@
-module  PreziImageSearch.GoogleSearchEngine where
+module PreziImageSearch.GoogleSearchEngine where
 
 import Dict
 import Http
@@ -17,7 +17,7 @@ results config queries =
 
 jsonStringToResults : Signal Config -> Signal SearchQuery -> Signal SearchResult
 jsonStringToResults config queries =
-    (jsonToResult . stringToJson)  <~ (stringResults config queries)
+    (jsonToResult . stringToJson) <~ (stringResults config queries)
 
 
 stringResults : Signal Config -> Signal SearchQuery -> Signal String
@@ -50,12 +50,12 @@ itemJsonToEntry item =
 
 imageJsonToEntry : String -> Json.Value -> SearchResultEntry
 imageJsonToEntry url imageJson = {
-        url             = url,
-        width           = getIntPropOrElse    0  "width"           imageJson,
-        height          = getIntPropOrElse    0  "height"          imageJson,
-        thumbnailUrl    = getStringPropOrElse "" "thumbnailLink"   imageJson,
-        thumbnailWidth  = getIntPropOrElse    0  "thumbnailWidth"  imageJson,
-        thumbnailHeight = getIntPropOrElse    0  "thumbnailHeight" imageJson
+        url = url,
+        width = getIntPropOrElse 0 "width" imageJson,
+        height = getIntPropOrElse 0 "height" imageJson,
+        thumbnailUrl = getStringPropOrElse "" "thumbnailLink" imageJson,
+        thumbnailWidth = getIntPropOrElse 0 "thumbnailWidth" imageJson,
+        thumbnailHeight = getIntPropOrElse 0 "thumbnailHeight" imageJson
     }
 
 
@@ -63,7 +63,7 @@ stringToJson : String -> Json.Value
 stringToJson str = 
     case Json.fromString str of
         Just value -> value
-        Nothing    -> Json.String ""
+        Nothing -> Json.String ""
 
 
 queryToGet : Config -> SearchQuery -> (Http.Request String)
@@ -101,5 +101,5 @@ httpResponseToString : Http.Response String -> String
 httpResponseToString httpResponse =
     case httpResponse of
         Http.Success body -> body
-        Http.Waiting      -> "waiting"
-        Http.Failure _ _  -> show httpResponse
+        Http.Waiting -> "waiting"
+        Http.Failure _ _ -> show httpResponse

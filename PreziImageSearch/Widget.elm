@@ -34,13 +34,13 @@ selectedImages =
 {- Model -}
 
 type State = {
-        charCount  : Int,
+        charCount : Int,
         searchText : String
     }
 
 emptyState : State
 emptyState = {
-        charCount  = 0,
+        charCount = 0,
         searchText = ""
     }
 
@@ -191,7 +191,7 @@ searchResultsElement config results =
     let flatResults = concat results
         flatResultsWithIdx = zip [1 .. length flatResults] flatResults
         (col1WithIdx, col2WithIdx) = partition (\(idx, e) -> mod idx 2 == 1) flatResultsWithIdx
-        colElems colWithIdx =  map (\(idx, e) -> searchResultEntryElement config e) colWithIdx
+        colElems colWithIdx = map (\(idx, e) -> searchResultEntryElement config e) colWithIdx
         col colWithIdx = node "div" [ Css.resultCol ] [] (colElems colWithIdx)
     in
         node
@@ -215,9 +215,9 @@ searchResultEntryElement config entry =
             []
             [
                 eventNode "img"
-                    [ "src"    := entry.thumbnailUrl ]
+                    [ "src" := entry.thumbnailUrl ]
                     [
-                        "width"  := px w,
+                        "width" := px w,
                         "height" := px ((toFloat entry.thumbnailHeight) * imgScale)
                     ]
                     [ ondblclick imageSelections.handle (always entry) ]
