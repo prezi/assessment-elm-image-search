@@ -2,6 +2,7 @@ module PreziImageSearchEmbed where
 
 import Dict
 import Json
+import String
 
 import PreziImageSearch
 import PreziImageSearch.Config as Config
@@ -60,4 +61,3 @@ convertConfig jsConf =
 
 main : Signal Element
 main = PreziImageSearch.widget convertedConfigSignal
-
