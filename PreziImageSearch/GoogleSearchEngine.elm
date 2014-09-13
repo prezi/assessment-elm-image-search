@@ -88,7 +88,7 @@ queryToGet config query =
 
 addGetParamters : String -> [(String, String)] -> String
 addGetParamters baseUrl parameters =
-    let paramToString k v = encode(k) ++ "=" ++ encode(v)
+    let paramToString (k, v) = encode(k) ++ "=" ++ encode(v)
         paramStr = join "&" <| map paramToString parameters
     in
         baseUrl ++ "?" ++ paramStr
