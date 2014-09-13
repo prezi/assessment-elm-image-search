@@ -65,7 +65,7 @@ step action state =
 {- To be lifted -}
 
 scene : Config -> State -> [SearchResult] -> (Int, Int) -> Element
-scene config state results (w, h) = 
+scene config state results (w, h) =
     toElement
         config.width
         h
@@ -106,8 +106,8 @@ state =
     foldp step emptyState actions.signal
 
 
-searchSubmits : Signal State 
-searchSubmits = 
+searchSubmits : Signal State
+searchSubmits =
     sampleOn
         (merge
             submitButtonClicks.signal
@@ -120,7 +120,7 @@ searchQueries = searchQuery <~ searchSubmits
 
 
 searchResults : Signal Config -> Signal [SearchResult]
-searchResults config = 
+searchResults config =
     combine [
             (GoogleSearchEnigne.results config searchQueries),
             (TestSearchEnigne.results searchQueries)
@@ -143,7 +143,7 @@ searchWidgetElement config labels state results =
 
 
 submitButtonElement : String -> Html
-submitButtonElement label = 
+submitButtonElement label =
     eventNode
         "input"
         [
@@ -157,7 +157,7 @@ submitButtonElement label =
 
 
 headerElement : String -> Html
-headerElement label = 
+headerElement label =
     node
         "div"
         [ Css.header ]
@@ -166,7 +166,7 @@ headerElement label =
 
 
 searchInputElement : Html
-searchInputElement = 
+searchInputElement =
     eventNode
         "input"
         [ Css.input ]
