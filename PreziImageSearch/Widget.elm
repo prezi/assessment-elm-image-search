@@ -8,6 +8,7 @@ import Html (eventNode, node, px, text, toElement, (:=), Attribute, Html)
 import Html.Events (getValue, getKeyboardEvent, on, onclick, ondblclick, onkeydown, onkeyup, when)
 import Http
 import Maybe
+import String
 import Window
 
 import PreziImageSearch.Css as Css
@@ -190,7 +191,7 @@ searchResultsElement : Config -> [SearchResult] -> Html
 searchResultsElement config results =
     let flatResults = concat results
         flatResultsWithIdx = zip [1 .. length flatResults] flatResults
-        (col1WithIdx, col2WithIdx) = partition (\(idx, e) -> mod idx 2 == 1) flatResultsWithIdx
+        (col1WithIdx, col2WithIdx) = partition (\(idx, e) -> idx % 2 == 1) flatResultsWithIdx
         colElems colWithIdx = map (\(idx, e) -> searchResultEntryElement config e) colWithIdx
         col colWithIdx = node "div" [ Css.resultCol ] [] (colElems colWithIdx)
     in
