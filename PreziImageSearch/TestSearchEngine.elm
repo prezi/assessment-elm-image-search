@@ -3,6 +3,8 @@ module PreziImageSearch.TestSearchEngine where
 import Dict
 import Http
 import Json
+import Maybe
+import String
 
 import PreziImageSearch.JsonUtil (..)
 import PreziImageSearch.SearchEngine (..)
@@ -30,7 +32,7 @@ httpResponseToResult httpResponse =
 
 httpBodyToResult : String -> SearchResult
 httpBodyToResult body =
-    maybe [] (\v -> jsonToResult v) (Json.fromString body)
+    Maybe.maybe [] (\v -> jsonToResult v) (Json.fromString body)
 
 
 jsonToResult : Json.Value -> SearchResult

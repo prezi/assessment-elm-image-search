@@ -2,7 +2,9 @@ module PreziImageSearch.GoogleSearchEngine where
 
 import Dict
 import Http
+import List
 import Json
+import String
 
 import PreziImageSearch.Config (Config)
 import PreziImageSearch.SearchEngine (..)
@@ -17,7 +19,7 @@ results config queries =
 
 jsonStringToResults : Signal Config -> Signal SearchQuery -> Signal SearchResult
 jsonStringToResults config queries =
-    (jsonToResult . stringToJson) <~ (stringResults config queries)
+    (jsonToResult << stringToJson) <~ (stringResults config queries)
 
 
 stringResults : Signal Config -> Signal SearchQuery -> Signal String
@@ -30,7 +32,7 @@ jsonToResult value =
     case value of
         Json.Object dict ->
             case Dict.get "items" dict of
-                Just (Json.Array items) -> justs (map itemJsonToEntry items)
+                Just (Json.Array items) -> List.filterMap itemJsonToEntry items
                 Nothing -> []
         otherwise -> []
 
@@ -60,7 +62,7 @@ imageJsonToEntry url imageJson = {
 
 
 stringToJson : String -> Json.Value
-stringToJson str = 
+stringToJson str =
     case Json.fromString str of
         Just value -> value
         Nothing -> Json.String ""
