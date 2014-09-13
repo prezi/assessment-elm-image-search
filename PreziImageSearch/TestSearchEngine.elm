@@ -50,5 +50,5 @@ jsonToEntry imageJson = {
         height = getIntPropOrElse 0 "height" imageJson,
         thumbnailUrl = getStringPropOrElse "" "thumbnailUrl" imageJson,
         thumbnailWidth = getIntPropOrElse 0 "thumbnailWidth" imageJson,
-        thumbnailHeight = getIntPropOrElse 0 "thumbnailHeight" imageJson,
+        thumbnailHeight = getIntPropOrElse 0 "thumbnailHeight" imageJson
     }
