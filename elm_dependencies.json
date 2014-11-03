@@ -4,7 +4,7 @@
     "description": "assessment task for David Biro",
     "license": "",
     "exposed-modules": ["PreziImageSearch"],
-    "elm-version": "0.12.3",
+    "elm-version": "0.13",
     "dependencies": {
         "evancz/elm-html": "0.1.2"
     },
