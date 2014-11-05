@@ -15,17 +15,17 @@ import PreziImageSearch.Css as Css
 import PreziImageSearch.Config (Config)
 import PreziImageSearch.Labels as Labels
 import PreziImageSearch.SearchEngine (..)
-import PreziImageSearch.TestSearchEngine as TestSearchEnigne
-import PreziImageSearch.GoogleSearchEngine as GoogleSearchEnigne
+import PreziImageSearch.TestSearchEngine as TestSearchEngine
+import PreziImageSearch.GoogleSearchEngine as GoogleSearchEngine
 
 {- API -}
 
-widget : Signal Config -> Signal Element
-widget config =
+widget : Signal Config -> Signal String -> Signal Element
+widget config queries =
     scene
         <~ config
         ~ state
-        ~ (searchResults config)
+        ~ (searchResults config queries)
         ~ Window.dimensions
 
 selectedImages : Signal SearchResultEntry
@@ -76,6 +76,9 @@ scene config state results (w, h) =
             state
             results)
 
+queryActions : Signal String -> Signal Action
+queryActions queries = lift UpdateSearchText queries
+
 searchQuery : State -> String
 searchQuery state =
     state.searchText
@@ -120,27 +123,34 @@ searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
 
 
-searchResults : Signal Config -> Signal [SearchResult]
-searchResults config =
+searchResults : Signal Config -> Signal SearchQuery -> Signal [SearchResult]
+searchResults config queries =
     combine [
-            (GoogleSearchEnigne.results config searchQueries),
-            (TestSearchEnigne.results searchQueries)
+            (GoogleSearchEngine.results config (merge searchQueries queries)),
+            (TestSearchEngine.results (merge searchQueries queries))
         ]
 
 {- UI -}
 
 searchWidgetElement : Config -> Labels.Labels -> State -> [SearchResult] -> Html
 searchWidgetElement config labels state results =
-    node
-        "div"
-        [ Css.widget ]
-        []
-        [
-            headerElement labels.searchTitle,
-            searchInputElement,
-            submitButtonElement labels.submit,
-            searchResultsElement config results
-        ]
+    if | config.controls -> node
+           "div"
+           [ Css.widget ]
+           []
+           [
+               headerElement labels.searchTitle,
+               searchInputElement,
+               submitButtonElement labels.submit,
+               searchResultsElement config results
+           ]
+       | otherwise -> node
+           "div"
+           [ Css.widget ]
+           []
+           [
+               searchResultsElement config results
+           ]
 
 
 submitButtonElement : String -> Html

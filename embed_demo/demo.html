@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>PreziImageSearchDemo</title>
-        <script type="text/javascript" src="/elm-runtime.js"></script>
+        <script type="text/javascript" src="/build/elm-runtime.js"></script>
         <script type="text/javascript" src="/Native/PreziImageSearch.js"></script>
         <script type="text/javascript" src="/build/PreziImageSearchEmbed.js"></script>
         <link rel="stylesheet" type="text/css" href="/embed_demo/css/demo.css">
@@ -77,13 +77,13 @@
                     , googleApiKey : ""
                     , googleTestResponse : true
                     , language : "Hun"
-                    }
+                    , controls : true
+                    };
 
                 var chat = Elm.embed (
                     Elm.PreziImageSearchEmbed,
                     elemById("image_search"),
-                    { configIn : configIn
-                    }
+                    { configIn : configIn, queries : '' }
                 );
 
                 var jsonResultElem = elemById("json_result");

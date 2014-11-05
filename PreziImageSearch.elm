@@ -7,5 +7,5 @@ import PreziImageSearch.Widget as Widget
 selectedImages : Signal SearchResultEntry
 selectedImages = Widget.selectedImages
 
-widget : Signal Config.Config -> Signal Element
-widget config = Widget.widget config
+widget : Signal Config.Config -> Signal SearchQuery -> Signal Element
+widget config queries = Widget.widget config queries
