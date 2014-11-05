@@ -11,14 +11,7 @@ import PreziImageSearch.SearchEngine (SearchResultEntry)
 
 {- Input ports -}
 
-port configIn : Signal {
-        width : Int,
-        imagePadding : Int,
-        googleCustomSearchId : String,
-        googleApiKey : String,
-        googleTestResponse : Bool,
-        language : String
-    }
+port configIn : Signal PreConfig
 
 {- Output ports -}
 
@@ -50,15 +43,7 @@ convertResult entry =
 
 {- Config conversion -}
 
-convertedConfigSignal = convertConfig <~ configIn
-
-convertConfig jsConf = {
-        jsConf |
-            language <-
-                case jsConf.language of
-                    "Hun" -> Config.Hun
-                    "Eng" -> Config.Eng
-    }
+convertedConfigSignal = completePreconfig <~ configIn
 
 {- Main -}
 
