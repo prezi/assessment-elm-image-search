@@ -20,12 +20,12 @@ import PreziImageSearch.GoogleSearchEngine as GoogleSearchEngine
 
 {- API -}
 
-widget : Signal Config -> Signal Element
-widget config =
+widget : Signal Config -> Signal String -> Signal Element
+widget config queries =
     scene
         <~ config
         ~ state
-        ~ (searchResults config)
+        ~ (searchResults config queries)
         ~ Window.dimensions
 
 selectedImages : Signal SearchResultEntry
@@ -75,6 +75,9 @@ scene config state results (w, h) =
             (Labels.labels config.language)
             state
             results)
+
+queryActions : Signal String -> Signal Action
+queryActions queries = lift UpdateSearchText queries
 
 searchQuery : State -> String
 searchQuery state =

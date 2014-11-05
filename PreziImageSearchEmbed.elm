@@ -7,11 +7,13 @@ import String
 import PreziImageSearch
 import PreziImageSearch.Config as Config
 import PreziImageSearch.Config (..)
-import PreziImageSearch.SearchEngine (SearchResultEntry)
+import PreziImageSearch.SearchEngine (SearchQuery, SearchResultEntry)
 
 {- Input ports -}
 
 port configIn : Signal PreConfig
+
+port queries : Signal SearchQuery
 
 {- Output ports -}
 
@@ -48,4 +50,4 @@ convertedConfigSignal = completePreconfig <~ configIn
 {- Main -}
 
 main : Signal Element
-main = PreziImageSearch.widget convertedConfigSignal
+main = PreziImageSearch.widget convertedConfigSignal queries

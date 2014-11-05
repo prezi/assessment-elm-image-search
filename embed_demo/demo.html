@@ -83,8 +83,7 @@
                 var chat = Elm.embed (
                     Elm.PreziImageSearchEmbed,
                     elemById("image_search"),
-                    { configIn : configIn
-                    }
+                    { configIn : configIn, queries : '' }
                 );
 
                 var jsonResultElem = elemById("json_result");
