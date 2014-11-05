@@ -13,6 +13,7 @@ type Config = {
         googleApiKey : String,
         googleTestResponse : Bool,
         language : Language,
+        controls : Bool
     }
 
 -- A PreConfig is a config where language is given as a string.
@@ -23,6 +24,7 @@ type PreConfig = {
         googleApiKey : String,
         googleTestResponse : Bool,
         language : String,
+        controls : Bool
     }
 
 -- Complete PreConfig to a Config by transforming its language property to the

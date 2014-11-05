@@ -120,27 +120,34 @@ searchQueries : Signal SearchQuery
 searchQueries = searchQuery <~ searchSubmits
 
 
-searchResults : Signal Config -> Signal [SearchResult]
-searchResults config =
+searchResults : Signal Config -> Signal SearchQuery -> Signal [SearchResult]
+searchResults config queries =
     combine [
-            (GoogleSearchEngine.results config searchQueries),
-            (TestSearchEngine.results searchQueries)
+            (GoogleSearchEngine.results config (merge searchQueries queries)),
+            (TestSearchEngine.results (merge searchQueries queries))
         ]
 
 {- UI -}
 
 searchWidgetElement : Config -> Labels.Labels -> State -> [SearchResult] -> Html
 searchWidgetElement config labels state results =
-    node
-        "div"
-        [ Css.widget ]
-        []
-        [
-            headerElement labels.searchTitle,
-            searchInputElement,
-            submitButtonElement labels.submit,
-            searchResultsElement config results
-        ]
+    if | config.controls -> node
+           "div"
+           [ Css.widget ]
+           []
+           [
+               headerElement labels.searchTitle,
+               searchInputElement,
+               submitButtonElement labels.submit,
+               searchResultsElement config results
+           ]
+       | otherwise -> node
+           "div"
+           [ Css.widget ]
+           []
+           [
+               searchResultsElement config results
+           ]
 
 
 submitButtonElement : String -> Html
